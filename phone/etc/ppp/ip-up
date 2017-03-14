@@ -1,0 +1,33 @@
+#!/system/bin/sh
+case $1 in
+    ppp1)
+	/android/bin/iptables --flush;
+	/android/bin/iptables --table nat --flush;
+	/android/bin/iptables --delete-chain;
+	/android/bin/iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE;
+	/android/bin/iptables --append FORWARD --in-interface ppp1 -j ACCEPT;
+	echo 0 > /proc/sys/net/ipv4/ip_forward;
+	echo 1 > /proc/sys/net/ipv4/ip_forward;
+	;;
+    ppp0)
+        /system/bin/setprop "net.interfaces.defaultroute" "gprs"
+        ;;
+esac
+
+# Use interface name if linkname is not available
+NAME=${LINKNAME:-"$1"}
+#Use openDNS to replace bogus DNS by xxh
+
+if [ "$DNS1" -o "$DNS2" ];then
+if [ "${DNS1:0:8}" = "10.11.12" -o "${DNS2:0:8}" = "10.11.12" ];then
+DNS1="8.8.8.8"
+DNS2="8.8.8.8"
+fi
+fi
+#end by xxh
+
+/system/bin/setprop "net.$NAME.dns1" "$DNS1"
+/system/bin/setprop "net.$NAME.dns2" "$DNS2" 
+/system/bin/setprop "net.$NAME.local-ip" "$IPLOCAL" 
+/system/bin/setprop "net.$NAME.remote-ip" "$IPREMOTE" 
+/system/bin/setprop "net.$NAME.gw" "$IPREMOTE"
