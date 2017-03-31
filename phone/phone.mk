@@ -1,41 +1,41 @@
-PHONE_PATH := vendor/rockchip/common/phone
+
+CUR_PATH := vendor/rockchip/common
+
+#########################################################
+#   3G Dongle SUPPORT
+#########################################################
+PRODUCT_COPY_FILES += \
+    $(CUR_PATH)/phone/etc/ppp/ip-down:system/etc/ppp/ip-down-ppp0 \
+    $(CUR_PATH)/phone/etc/ppp/ip-up:system/etc/ppp/ip-up-ppp0 \
+    $(CUR_PATH)/phone/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
+    $(CUR_PATH)/phone/etc/ppp/init.gprs-pppd:system/etc/ppp/init.gprs-pppd \
+    $(CUR_PATH)/phone/etc/ppp/signal_ppp_dialer:system/etc/ppp/signal_ppp_dialer \
+    $(CUR_PATH)/phone/etc/operator_table:system/etc/operator_table 
 
 PRODUCT_COPY_FILES += \
-    $(PHONE_PATH)/etc/ppp/ip-down:system/etc/ppp/ip-down \
-    $(PHONE_PATH)/etc/ppp/ip-up:system/etc/ppp/ip-up \
-    $(PHONE_PATH)/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
-    $(PHONE_PATH)/etc/operator_table:system/etc/operator_table
+    $(CUR_PATH)/phone/bin/usb_modeswitch.sh:system/bin/usb_modeswitch.sh \
+    $(CUR_PATH)/phone/bin/usb_modeswitch:system/bin/usb_modeswitch \
+    $(CUR_PATH)/phone/lib/libril-rk29-dataonly.so:system/lib/libril-rk29-dataonly.so
 
-ifneq ($(strip $(TARGET_BOARD_PLATFORM)), rk3188)
-PRODUCT_COPY_FILES += \
-    $(PHONE_PATH)/bin/usb_modeswitch.sh:system/bin/usb_modeswitch.sh \
-    $(PHONE_PATH)/bin/usb_modeswitch:system/bin/usb_modeswitch \
-    $(PHONE_PATH)/bin/chat:system/bin/chat \
-    $(PHONE_PATH)/lib/libril-rk29-dataonly.so:system/lib/libril-rk29-dataonly.so
-endif
-
-modeswitch_files := $(shell ls $(PHONE_PATH)/etc/usb_modeswitch.d)
+modeswitch_files := $(shell ls $(CUR_PATH)/phone/etc/usb_modeswitch.d)
 PRODUCT_COPY_FILES += \
     $(foreach file, $(modeswitch_files), \
-    $(PHONE_PATH)/etc/usb_modeswitch.d/$(file):system/etc/usb_modeswitch.d/$(file))
+    $(CUR_PATH)/phone/etc/usb_modeswitch.d/$(file):system/etc/usb_modeswitch.d/$(file))
 
-ifeq ($(strip $(PRODUCT_MODEM)), lc6365)
+ifeq ($(strip $(PRODUCT_MODEM)), DTS4108C)
 PRODUCT_COPY_FILES += \
-    $(PHONE_PATH)/bin/rild_lc6365:system/bin/rild \
-    $(PHONE_PATH)/lib/libreference-ril-lc6365.so:system/lib/libreference-ril.so \
-    $(PHONE_PATH)/lib/libril-lc6365.so:system/lib/libril.so \
-    $(PHONE_PATH)/lib/modules/lc_ltencm.ko:system/lib/modules/lc_ltencm.ko
+    $(CUR_PATH)/phone/bin/rild_dts4108c:system/bin/rild \
+    $(CUR_PATH)/phone/lib/libreference-ril-dts4108c.so:system/lib/libreference-ril.so \
+    $(CUR_PATH)/phone/lib/libril-dts4108c.so:system/lib/libril.so
 endif
 
 PRODUCT_PACKAGES += \
     rild \
-    chat
+    libril-rk29-dataonly \
+    chat 
 
-PRODUCT_COPY_FILES += \
-    $(PHONE_PATH)/etc/apns-full-conf.xml:system/etc/apns-conf.xml \
-    $(PHONE_PATH)/etc/spn-conf.xml:system/etc/spn-conf.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
     keyguard.no_require_sim=true \
     ro.com.android.dataroaming=true \
-    ril.function.dataonly=1
+	ril.function.dataonly=1

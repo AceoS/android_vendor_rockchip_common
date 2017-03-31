@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+$(call inherit-product-if-exists, vendor/rockchip/common/tinyalsa/tinyalsa.mk)
+
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), PVR540)
 $(call inherit-product-if-exists, vendor/rockchip/common/gpu/PVR540.mk)
 endif
@@ -26,6 +28,15 @@ endif
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), mali-t760)
 $(call inherit-product-if-exists, vendor/rockchip/common/gpu/MaliT760.mk)
 endif
+
+ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), mali-t720)
+$(call inherit-product-if-exists, vendor/rockchip/common/gpu/MaliT720.mk)
+endif
+
+ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), mali-t860)
+$(call inherit-product-if-exists, vendor/rockchip/common/gpu/MaliT860.mk)
+endif
+
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), G6110)
 $(call inherit-product-if-exists, vendor/rockchip/common/gpu/G6110.mk)
 endif
@@ -52,11 +63,7 @@ endif
 
 # uncomment the line bellow to enable phone functions
 ifeq ($(PRODUCT_HAVE_RKPHONE_FEATURES), true)
-ifeq ($(strip $(TARGET_ARCH)), x86)
-$(call inherit-product-if-exists, vendor/rockchip/common/phone/phone_x86.mk)
-else
 $(call inherit-product-if-exists, vendor/rockchip/common/phone/phone.mk)
-endif
 endif
 
 #for HDMI HDCP2

@@ -1,0 +1,10 @@
+ABORT           "NO CARRIER" 
+ABORT           "ERROR"
+TIMEOUT         120		
+''  \rAT
+OK ATS0=0
+OK ATE0V1
+OK              ATH
+OK              ATP
+OK		ATD*99#
+CONNECT
