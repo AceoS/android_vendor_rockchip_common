@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+-include vendor/rockchip/common/BoardConfigVendor.mk
+
 $(call inherit-product-if-exists, vendor/rockchip/common/tinyalsa/tinyalsa.mk)
 
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), PVR540)
