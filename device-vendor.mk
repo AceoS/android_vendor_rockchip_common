@@ -77,3 +77,8 @@ endif
 ifeq ($(PRODUCT_HAVE_OPTEE),true)
 $(call inherit-product-if-exists, vendor/rockchip/common/security/optee/optee.mk)
 endif
+
+# WLAN
+ifeq ($(PRODUCT_HAVE_WLAN),true)
+$(call inherit-product-if-exists, vendor/rockchip/common/wlan/wifi-firmware.mk)
+endif
