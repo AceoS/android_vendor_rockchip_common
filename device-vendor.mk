@@ -16,8 +16,6 @@
 
 -include vendor/rockchip/common/BoardConfigVendor.mk
 
-$(call inherit-product-if-exists, vendor/rockchip/common/tinyalsa/tinyalsa.mk)
-
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), PVR540)
 $(call inherit-product-if-exists, vendor/rockchip/common/gpu/PVR540.mk)
 endif
